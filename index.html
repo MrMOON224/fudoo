@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>saipyaekoko (fudoo) - Digital Creator & Technician</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <style>
+        /* Base styles for Light Mode */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8F9FA; /* Off-white, soft background */
+            color: #212121; /* Darker text for readability */
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        
+        /* Fallback for Burmese text (using system default fonts that support Myanmar script) */
+        .myanmar-text {
+             font-family: "Myanmar Text", "Padauk", "Pyidaungsu", 'Inter', sans-serif;
+        }
+
+        /* --- Tonal Accent (Primary Dark Text/Icons) --- */
+        .tonal-accent {
+            color: #1A1A1A; /* Very dark gray for Light Mode accents */
+        }
+        .tonal-accent-hover:hover {
+            color: #000000;
+        }
+
+        /* --- Card Design (Ultra Clean) --- */
+        
+
+        /* Hero section */
+        .hero-bg-clean {
+            background-color: #ffffff; /* Pure white hero */
+            border-bottom: 1px solid #e0e0e0; 
+        }
+
+        /* Navigation */
+        nav {
+            background-color: #ffffff;
+            box-shadow: 0 1px 5px rgba(0,0,0,0.02);
+        }
+        
+        /* Secondary Text Colors */
+        .text-primary-light { color: #212121; }
+        .text-secondary-light { color: #616161; }
+
+        /* --- DARK MODE STYLES (Deeper & Textured) --- */
+        .dark body {
+            background-color: #090909; /* Ultra dark background */
+            color: #E0E0E0; 
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Subtle texture radial gradient for dark mode depth */
+        .dark body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            /* Radial gradient from center top, very subtle white light */
+            background: radial-gradient(circle at 50% 10%, rgba(255, 255, 255, 0.03) 0%, transparent 40%);
+            z-index: -1;
+        }
+
+        
+
+        .dark .hero-bg-clean {
+            background-color: #1f1f1f;
+            border-bottom: 1px solid #333333;
+        }
+        .dark nav {
+            background-color: #1f1f1f;
+            box-shadow: 0 1px 5px rgba(0,0,0,0.4);
+        }
+        
+        /* Dark Mode Accent: Subtle Tech Teal */
+        .dark .tonal-accent {
+            color: #A8BBA3; 
+        }
+        .dark .tonal-accent-hover:hover {
+            color: #f8fafc; /* White hover for max contrast */
+        }
+        
+        /* Dark Mode Text Colors */
+        .dark .text-primary-light { color: #E0E0E0; }
+        .dark .text-secondary-light { color: #B0B0B0; }
+        
+        /* Button Style (Solid, high contrast) */
+        .high-contrast-btn {
+            background-color: #1A1A1A;
+            color: #FFFFFF;
+            transition: background-color 0.15s ease;
+            height: 50px;
+    
+        }
+        .high-contrast-btn:hover {
+            background-color: #000000;
+        }
+        .dark .high-contrast-btn {
+            background-color: #A8BBA3;
+            color: #1f1f1f;
+        }
+        .dark .high-contrast-btn:hover {
+            background-color: #f8fafc;
+        }
+        .goog {
+            border-radius: 1rem;
+        }
+
+    </style>
+
+    <script>
+        // --- THEME TOGGLE SCRIPT ---
+        function initializeTheme() {
+            if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+            updateToggleButton(document.documentElement.classList.contains('dark'));
+            
+            // Initialize language
+            const initialLang = localStorage.getItem('language') || 'en';
+            localStorage.setItem('language', initialLang);
+            translateContent(initialLang);
+        }
+
+        function toggleTheme() {
+            const html = document.documentElement;
+            const isDark = html.classList.toggle('dark');
+            localStorage.theme = isDark ? 'dark' : 'light';
+            updateToggleButton(isDark);
+        }
+
+        function updateToggleButton(isDark) {
+            const button = document.getElementById('theme-toggle');
+            if (button) {
+                button.innerHTML = isDark 
+                    ? '<i class="fa-solid fa-sun text-yellow-400"></i>'
+                    : '<i class="fa-solid fa-moon text-gray-700"></i>';
+            }
+        }
+        
+        // --- TRANSLATION DATA --- (Content remains consistent)
+        const dictionary = {
+            title_name: { 
+                en: "saipyaekoko (fudoo)", 
+                my: "စိုင်းပြည့်ကိုကို (ဖူဒူး)" 
+            },
+            title_role: { 
+                en: "18-Year-Old Vision-Driven Creator & Technical Analyst",
+                my: "၁၈ နှစ်အရွယ် **လုပ်ငန်းအမြင်ရှိသူ**၊ ဒစ်ဂျစ်တယ် ဖန်တီးရှင်နဲ့ နည်းပညာ ခွဲခြမ်းစိတ်ဖြာကျွမ်းကျင်သူ" 
+            },
+            vision_heading: { 
+                en: "Vision & Drive", 
+                my: "ရည်မှန်းချက်နဲ့ စိတ်အားထက်သန်မှု" 
+            },
+            about_p1: { 
+                en: "I am an **18-year-old GED graduate** with an innate entrepreneurial drive, actively seeking opportunities to merge creative production with technical execution. I excel at **scaling brands** and generating compelling content while also understanding the fundamentals of computer systems and renewable energy solutions. My work is defined by efficiency, scalability, and a relentless focus on problem-solving.", 
+                my: "ကျွန်တော်က **လုပ်ငန်းအမြင်** ထက်သန်တဲ့ **၁၈ နှစ်အရွယ် GED အောင်မြင်ပြီးသူ**ပါ။ ဖန်တီးမှုအပိုင်းနဲ့ နည်းပညာပိုင်းကို ပေါင်းစပ်ပြီး အလုပ်လုပ်ရတာကို ဝါသနာပါပါတယ်။ **Brand တွေကို ကြီးထွားလာအောင် လုပ်တာ၊** စိတ်ဝင်စားစရာ Content တွေ ထုတ်လုပ်တာတွေမှာ ကျွမ်းကျင်ပြီး၊ Computer စနစ်နဲ့ ဆိုလာ (Solar) စွမ်းအင်အကြောင်းကိုလည်း နားလည်ပါတယ်။ ကျွန်တော့်ရဲ့ အလုပ်တိုင်းမှာ ထိရောက်မှု၊ ရေရှည်အတွက် ကြည့်တာနဲ့ ပြဿနာဖြေရှင်းနိုင်ဖို့ကို အဓိကထားပါတယ်။"
+            },
+            diff_heading: { 
+                en: "Key Differentiators", 
+                my: "ထူးခြားတဲ့ အားသာချက်များ" 
+            },
+            diff_l1: { 
+                en: "Fluent English Communication", 
+                my: "အင်္ဂလိပ်စကားပြော ကျွမ်းကျင်မှု" 
+            },
+            diff_l2: { 
+                en: "Comprehensive GED Education", 
+                my: "ပြည့်စုံတဲ့ GED ပညာရေး" 
+            },
+            diff_l3: { 
+                en: "Mobile-First Creative Production", 
+                my: "Mobile ဦးစားပေး ဖန်တီးမှုလုပ်ငန်း" 
+            },
+            diff_l4: { 
+                en: "Vision-Driven Analysis", 
+                my: "**လုပ်ငန်းအမြင်**နှင့် ခွဲခြမ်းစိတ်ဖြာနိုင်မှု" 
+            },
+            skills_heading: { 
+                en: "Detailed Expertise", 
+                my: "အသေးစိတ် ကျွမ်းကျင်မှုများ" 
+            },
+            skill1_t: { 
+                en: "Cinematic Video Production", 
+                my: "ရုပ်ရှင်ဆန်တဲ့ ဗီဒီယို ဖန်တီးမှု" 
+            },
+            skill1_d: { 
+                en: "can do **Mobile Cinematography**, **Color Grading**, and efficient post-production workflows for dynamic short-form content.understand camera settings", 
+                my: "**Mobile Cinematography**၊ အဆင့်မြင့် **Color Grading** နဲ့ စွဲမက်ဖွယ်ကောင်းတဲ့ ဗီဒီယိုအတိုတွေအတွက် ထိရောက်တဲ့ Post-production လုပ်ငန်းစဉ်တွေကို အကောင်းဆုံး လုပ်ကိုင်နိုင်သူပါ။" 
+            },
+            skill2_t: { 
+                en: "Front-End Web Development", 
+                my: "Front-End ဝဘ်ဆိုဒ် တည်ဆောက်ခြင်း"
+            },
+            skill2_d: { 
+                en: "Proficient with **HTML, CSS (Tailwind)**, and **JavaScript fundamentals** to construct clean, responsive user interfaces.", 
+                my: "သပ်ရပ်ပြီး ဘယ်ဖုန်း၊ ဘယ်စက်နဲ့မဆို အဆင်ပြေတဲ့ User Interface တွေ ဖန်တီးဖို့အတွက် **HTML, CSS (Tailwind)** နဲ့ **JavaScript အခြေခံ** တွေမှာ ကျွမ်းကျင်ပါတယ်။" 
+            },
+            skill3_t: { 
+                en: "Solar System Technician", 
+                my: "ဆိုလာ နည်းပညာရှင်"
+            },
+            skill3_d: { 
+                en: "Can caculate and install solar panels, maintenance, and troubleshooting electrical systems and optimal energy flow.", 
+                my: "ဆိုလာပြား တပ်ဆင်မှု၊ ထိန်းသိမ်းမှု၊ လျှပ်စစ်စနစ်တွေနဲ့ စွမ်းအင်စီးဆင်းမှု ပြဿနာဖြေရှင်းခြင်းဆိုင်ရာ အသိပညာတွေ လက်မှတ်ရထားသူပါ။" 
+            },
+            skill4_t: { 
+                en: "Digital Art & fundemental Graphic Design", 
+                my: "ဒစ်ဂျစ်တယ် အနုပညာနဲ့ ဂရပ်ဖစ်ဒီဇိုင်း" 
+            },
+            skill4_d: { 
+                en: "Skilled **Digital Artist** and foundational graphic designer for effective visual communication and strong branding materials.", 
+                my: "ထိရောက်တဲ့ ရုပ်ပိုင်းဆိုင်ရာ ဆက်သွယ်မှုနဲ့ ခိုင်မာတဲ့ Branding ပစ္စည်းတွေအတွက် ကျွမ်းကျင်တဲ့ **ဒစ်ဂျစ်တယ် ပန်းချီပညာရှင်** နဲ့ ဂရပ်ဖစ်ဒီဇိုင်း အခြေခံကျွမ်းကျင်သူပါ။" 
+            },
+            skill5_t: { 
+                en: "Content & Brand Scaling", 
+                my: "Content နဲ့ Brand တိုးချဲ့ခြင်း" 
+            },
+            skill5_d: { 
+                en: "Expert in **Content Writing**, Social Media Administration, and developing strategies to maximize brand reach and audience engagement.", 
+                my: "**Content ရေးသားမှု**၊ လူမှုမီဒီယာ စီမံခန့်ခွဲမှု နဲ့ Brand ပျံ့နှံ့မှု၊ ပရိသတ် ဆွဲဆောင်မှု အမြင့်ဆုံးမြှင့်တင်ဖို့အတွက် မဟာဗျူဟာတွေ ဖော်ဆောင်ပေးနိုင်တဲ့ ကျွမ်းကျင်မှုရှိပါတယ်။" 
+            },
+            skill6_t: { 
+                en: "Technical Analysis & Hardware", 
+                my: "နည်းပညာ ခွဲခြမ်းစိတ်ဖြာမှုနဲ့ ဟာ့ဒ်ဝဲ" 
+            },
+            skill6_d: { 
+                en: "Adept at **Technical Analysis** and problem-solving, with understanding of computer hardware/software architecture and security basics.", 
+                my: "**နည်းပညာ ခွဲခြမ်းစိတ်ဖြာမှု** နဲ့ ပြဿနာဖြေရှင်းမှုတို့မှာ ကျွမ်းကျင်ပြီး Computer Hardware/Software ဗိသုကာနဲ့ လုံခြုံရေး အခြေခံတွေကို နားလည်သူပါ။" 
+            },
+            skill7_t: { 
+                en: "Professional Presentation", 
+                my: "ပရော်ဖက်ရှင်နယ် တင်ဆက်မှု" 
+            },
+            skill7_d: { 
+                en: " can explain well about smth:creating **visually effective decks**, structuring narrative flow, and delivering complex information clearly to diverse audiences.", 
+                my: "**အမြင်ထိရောက်တဲ့ Presentation တွေ** ဖန်တီးခြင်း၊ ဇာတ်ကြောင်းစီးဆင်းမှု ပုံစံချခြင်းနဲ့ ရှုပ်ထွေးတဲ့ အချက်အလက်တွေကို ပရိသတ်အမျိုးမျိုးအား ရှင်းလင်းစွာ တင်ဆက်ရာမှာ ကျွမ်းကျင်ပါတယ်။" 
+            },
+            creative_heading: { 
+                en: "Creative Production Portfolio", 
+                my: "ဖန်တီးမှုဆိုင်ရာ လက်ရာများ" 
+            },
+            creative1_t: { 
+                en: "Mobile Cinematic Reel", 
+                my: "မိုဘိုင်း ရုပ်ရှင်နမူနာ" 
+            },
+            creative1_d: { 
+                en: "Showcasing a short film or reel entirely captured and edited on mobile, highlighting advanced color grading and fluid motion.", 
+                my: "မိုဘိုင်းနဲ့ပဲ အစအဆုံးရိုက်ကူးတည်းဖြတ်ထားတဲ့ ရုပ်ရှင်အတို ဒါမှမဟုတ် နမူနာဗီဒီယိုပါ။ အဆင့်မြင့် Color Grading နဲ့ ချောမွေ့တဲ့ ရွေ့လျားမှုတွေကို အဓိကထားပြသထားပါတယ်။" 
+            },
+            creative2_t: { 
+                en: "Digital Art & Branding Gallery", 
+                my: "ဒစ်ဂျစ်တယ် အနုပညာနှင့် Brand ပုံများ" 
+            },
+            creative2_d: { 
+                en: "Selected examples of digital paintings, graphic design elements, and visual assets created for content marketing purposes.", 
+                my: "Content Marketing အတွက် ဖန်တီးထားတဲ့ ဒစ်ဂျစ်တယ် ပန်းချီများ၊ ဂရပ်ဖစ်ဒီဇိုင်း အစိတ်အပိုင်းတွေနဲ့ ရုပ်ပိုင်းဆိုင်ရာ Asset တွေရဲ့ နမူနာတချို့ကို ရွေးချယ်ပြသထားပါတယ်။" 
+            },
+            connect_heading: { 
+                en: "Connect with Me", 
+                my: "ကျွန်တော်နဲ့ ချိတ်ဆက်ရန်" 
+            },
+            connect_p: { 
+                en: "Let's collaborate! Reach out through my professional and creative channels below.", 
+                my: "လက်တွဲဖို့ အသင့်ပါပဲ! အောက်ပါ Channel တွေကနေတစ်ဆင့် ကျွန်တော်နဲ့ ဆက်သွယ်နိုင်ပါတယ်။" 
+            },
+            footer_text: { 
+                en: "© 2025 saipyaekoko (fudoo). Driven by vision and technical expertise.", 
+                my: "© 2025 စိုင်းပြည့်ကိုကို (ဖူဒူး)။ ရည်မှန်းချက်နဲ့ နည်းပညာကျွမ်းကျင်မှုဖြင့် ရှေ့ဆက်သည်။" 
+            },
+            lang_button_text: {
+                en: "Language: MY",
+                my: "ဘာသာစကား: EN"
+            }
+        };
+
+        // Function to toggle language
+        function toggleLanguage() {
+            const currentLang = localStorage.getItem('language');
+            const newLang = currentLang === 'en' ? 'my' : 'en';
+            localStorage.setItem('language', newLang);
+            translateContent(newLang);
+        }
+
+        // Function to apply translation
+        function translateContent(lang) {
+            const elements = document.querySelectorAll('[data-i18n]');
+            
+            elements.forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                let text = dictionary[key][lang];
+
+                if (lang === 'my') {
+                     el.classList.add('myanmar-text');
+                } else {
+                     el.classList.remove('myanmar-text');
+                }
+                
+                // Handle bolding
+                if (text.includes('**')) {
+                    text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                    el.innerHTML = text;
+                } else {
+                    el.textContent = text;
+                }
+            });
+            
+            // Manual Nav Link Updates
+            document.querySelector('[data-nav="about"]').textContent = lang === 'en' ? 'About' : 'ကျွန်တော့်အကြောင်း';
+            document.querySelector('[data-nav="skills"]').textContent = lang === 'en' ? 'Skills' : 'ကျွမ်းကျင်မှုများ';
+            document.querySelector('[data-nav="creative-work"]').textContent = lang === 'en' ? 'Creative Work' : 'ဖန်တီးမှုများ';
+            document.querySelector('[data-nav="connect"]').textContent = lang === 'en' ? 'Connect' : 'ချိတ်ဆက်ရန်';
+            
+            document.title = lang === 'en' ? 'saipyaekoko (fudoo) - Digital Creator & Technician' : 'စိုင်းပြည့်ကိုကို (ဖူဒူး) - ဒစ်ဂျစ်တယ် ဖန်တီးရှင်';
+
+            const langButton = document.getElementById('lang-toggle');
+            if (langButton) {
+                langButton.textContent = dictionary.lang_button_text[lang];
+            }
+        }
+
+        // Initialize theme and language on page load
+        document.addEventListener('DOMContentLoaded', initializeTheme);
+    </script>
+</head>
+<body class="transition-colors duration-300">
+
+    <div class="min-h-screen">
+        
+        <!-- Sticky Navigation Bar (Clean Look) -->
+        <nav class="sticky top-0 z-50 transition-colors duration-300">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center">
+                <!-- Branding uses subtle tonal accent -->
+                <span class="font-extrabold text-xl tonal-accent" data-i18n="title_name">saipyaekoko (fudoo)</span>
+                <div class="flex items-center space-x-6">
+                    <div class="space-x-6 hidden md:flex text-base font-medium">
+                        <!-- Navigation links use new subtle accent on hover -->
+                        <a href="#about" data-nav="about" class="text-secondary-light dark:text-gray-300 tonal-accent-hover transition duration-150">About</a>
+                        <a href="#skills" data-nav="skills" class="text-secondary-light dark:text-gray-300 tonal-accent-hover transition duration-150">Skills</a>
+                        <a href="#creative-work" data-nav="creative-work" class="text-secondary-light dark:text-gray-300 tonal-accent-hover transition duration-150">Creative Work</a>
+                        <a href="#connect" data-nav="connect" class="text-secondary-light dark:text-gray-300 tonal-accent-hover transition duration-150">Connect</a>
+                    </div>
+                    
+                    <!-- Language Toggle Button -->
+                    <button id="lang-toggle" onclick="toggleLanguage()" class="p-2 text-base font-medium rounded-lg high-contrast-btn transition duration-150">
+                        : MY
+                    </button>
+                    
+                    <!-- Theme Toggle Button -->
+                    <button id="theme-toggle" onclick="toggleTheme()" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-800 transition duration-150 text-lg">
+                        <!-- Content updated by JavaScript -->
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Header/Hero Section (High Contrast) -->
+        <header class="py-16 px-4 sm:px-6 lg:px-8 text-center transition-colors duration-300 hero-bg-clean">
+            <div class="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between">
+                <!-- Profile Image Placeholder (Clean, no GIF) -->
+                <div class="relative mb-6 md:mb-0 w-36 h-36   flex items-center justify-center overflow-hidden border-2 goog shadow-md">
+                    <i class=" text-5xl tonal-accent opacity-100 "> <img src="me.jpg" alt=""></i>
+                </div>
+
+                <!-- Introduction -->
+                <div class="md:ml-8 text-center md:text-left">
+                    <h1 class="text-5xl sm:text-6xl font-extrabold tracking-tight tonal-accent mb-2" data-i18n="title_name">
+                        saipyaekoko (fudoo)
+                    </h1>
+                    <p class="mt-2 text-2xl font-light text-primary-light" data-i18n="title_role">
+                        18-Year-Old Vision-Driven Creator & Technical Analyst
+                    </p>
+                    <p class="mt-4 text-sm font-medium text-secondary-light">
+                        Email: starman201523@gmail.com | Location: [mandalay/myanmar]
+                    </p>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content Area -->
+        <main class="max-w-5xl mx-auto p-4 sm:p-6 lg:p-8">
+
+            <!-- About Me Section -->
+            <section id="about" class="mb-12 p-8 card transition-colors duration-300">
+                <h2 class="text-3xl font-bold border-b pb-4 mb-8 tonal-accent" data-i18n="vision_heading">Vision & Drive</h2>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="md:col-span-2">
+                        <p class="leading-relaxed text-base text-primary-light" data-i18n="about_p1">
+                            I am an **18-year-old GED graduate** with an innate entrepreneurial drive, actively seeking opportunities to merge creative production with technical execution. I excel at **scaling brands** and generating compelling content while also understanding the fundamentals of computer systems and renewable energy solutions. My work is defined by efficiency, scalability, and a relentless focus on problem-solving.
+                        </p>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-lg text-primary-light mb-3" data-i18n="diff_heading">Key Differentiators</h3>
+                        <ul class="list-disc list-inside text-sm text-secondary-light space-y-2">
+                            <li data-i18n="diff_l1">Fluent English Communication</li>
+                            <li data-i18n="diff_l2">Comprehensive GED Education</li>
+                            <li data-i18n="diff_l3">Mobile-First Creative Production</li>
+                            <li data-i18n="diff_l4">Vision-Driven Analysis</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- --- SKILLS GRID: Simplified Cards --- -->
+            <section id="skills" class="mb-12">
+                <h2 class="text-3xl font-bold border-b pb-4 mb-10 tonal-accent" data-i18n="skills_heading">Detailed Expertise</h2>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                    
+                    <!-- Skill 1: Cinematic Production -->
+                    <div class="p-6 rounded-2xl card transition-colors duration-300">
+                        <i class="fa-solid fa-camera-movie text-3xl tonal-accent mb-4"></i>
+                        <p class="font-bold text-lg text-primary-light mb-2" data-i18n="skill1_t">Cinematic Video Production</p>
+                        <p class="text-sm text-secondary-light" data-i18n="skill1_d">can do **Mobile Cinematography**,  **Color Grading**, and efficient post-production workflows for dynamic short-form content. understand various camera settings</p>
+                    </div>
+
+                    <!-- Skill 2: Front-End Dev -->
+                    <div class="p-6 rounded-2xl card transition-colors duration-300">
+                        <i class="fa-solid fa-code text-3xl tonal-accent mb-4"></i>
+                        <p class="font-bold text-lg text-primary-light mb-2" data-i18n="skill2_t">Front-End Web Development</p>
+                        <p class="text-sm text-secondary-light" data-i18n="skill2_d">Proficient with **HTML, CSS **,  to construct clean, responsive user interfaces.</p>
+                    </div>
+
+                    <!-- Skill 3: Solar Tech -->
+                    <div class="p-6 rounded-2xl card transition-colors duration-300">
+                        <i class="fa-solid fa-solar-panel text-3xl tonal-accent mb-4"></i>
+                        <p class="font-bold text-lg text-primary-light mb-2" data-i18n="skill3_t">Solar System Technician</p>
+                        <p class="text-sm text-secondary-light" data-i18n="skill3_d">Can caculate and install solar panel, maintenance, and troubleshooting electrical systems and optimal energy flow.</p>
+                    </div>
+
+                    <!-- Skill 4: Art & Graphic Design -->
+                    <div class="p-6 rounded-2xl card transition-colors duration-300">
+                        <i class="fa-solid fa-pen-nib text-3xl tonal-accent mb-4"></i>
+                        <p class="font-bold text-lg text-primary-light mb-2" data-i18n="skill4_t">Digital Art & basic Graphic Design</p>
+                        <p class="text-sm text-secondary-light" data-i18n="skill4_d">Skilled **Digital Artist** and foundational graphic designer for effective visual communication and strong branding materials.(minimalist)</p>
+                    </div>
+                    
+                    <!-- Skill 5: Content Strategy -->
+                    <div class="p-6 rounded-2xl card transition-colors duration-300">
+                        <i class="fa-solid fa-bullhorn text-3xl tonal-accent mb-4"></i>
+                        <p class="font-bold text-lg text-primary-light mb-2" data-i18n="skill5_t">Content & Brand Scaling</p>
+                        <p class="text-sm text-secondary-light" data-i18n="skill5_d">Expert in **Content Writing**, Social Media Administration, and developing strategies to maximize brand reach and audience engagement.</p>
+                    </div>
+
+                    <!-- Skill 6: Analysis & Hardware -->
+                    <div class="p-6 rounded-2xl card transition-colors duration-300">
+                        <i class="fa-solid fa-gears text-3xl tonal-accent mb-4"></i>
+                        <p class="font-bold text-lg text-primary-light mb-2" data-i18n="skill6_t">Technical Analysis & Hardware</p>
+                        <p class="text-sm text-secondary-light" data-i18n="skill6_d">Adept at **Technical Analysis** and problem-solving, with understanding of computer hardware/software architecture and security basics.can hack fundamentals</p>
+                    </div>
+                    
+                    <!-- Skill 7: Professional Presentation -->
+                    <div class="p-6 rounded-2xl card transition-colors duration-300">
+                        <i class="fa-solid fa-chalkboard-user text-3xl tonal-accent mb-4"></i>
+                        <p class="font-bold text-lg text-primary-light mb-2" data-i18n="skill7_t">Professional Presentation</p>
+                        <p class="text-sm text-secondary-light" data-i18n="skill7_d">Skilled in creating **visually effective decks**, structuring narrative flow, and delivering complex information clearly to diverse audiences.</p>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- --- CREATIVE WORK SECTION --- -->
+            <section id="creative-work" class="mb-12">
+                <h2 class="text-3xl font-bold border-b pb-4 mb-10 tonal-accent" data-i18n="creative_heading">Creative Production Portfolio</h2>
+                <div class="grid lg:grid-cols-2 gap-8">
+
+                    <!-- Project 1: Cinematic Work (Video Embed) -->
+                    <div class="rounded-2xl p-6 card transition-colors duration-300">
+                        <div class="flex items-center space-x-3 mb-4">
+                            <i class="fa-solid fa-film text-2xl tonal-accent"></i>
+                            <h3 class="text-lg font-bold text-primary-light" data-i18n="creative1_t">Mobile Cinematic Reel</h3>
+                        </div>
+                        <p class="text-sm mb-4 text-secondary-light" data-i18n="creative1_d">
+                            Showcasing a short film or reel entirely captured and edited on mobile, highlighting advanced color grading and fluid motion.
+                        </p>
+                        
+                        <!-- Video Placeholder -->
+                        <div class="relative w-full aspect-video bg-gray-200 dark:bg-gray-800 rounded-lg overflow-hidden flex items-center justify-center border border-gray-300 dark:border-gray-700">
+                                                     <iframe class="absolute top-0 left-0 w-full h-full" src="vid.mp4" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; " allowfullscreen></iframe>
+
+                        </div>
+                    </div>
+
+                    <!-- Project 2: Digital Art Gallery (Static Placeholders) -->
+                    <div class="rounded-2xl p-6 card transition-colors duration-300">
+                        <div class="flex items-center space-x-3 mb-4">
+                            <i class="fa-solid fa-palette text-2xl tonal-accent"></i>
+                            <h3 class="text-lg font-bold text-primary-light" data-i18n="creative2_t">Digital Art & Branding Gallery</h3>
+                        </div>
+                        <p class="text-sm mb-4 text-secondary-light" data-i18n="creative2_d">
+                            Selected examples of digital paintings, graphic design elements, and visual assets created for content marketing purposes.
+                        </p>
+                        
+                        <!-- Image Gallery Placeholder (Using muted gray colors) -->
+                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                            <div class="w-full aspect-square bg-gray-200 rounded-lg overflow-hidden border border-gray-300 dark:border-gray-700">
+                                <img src="one.png" alt="Art Piece 1" class="w-full h-full object-cover">
+                            </div>
+                            <div class="w-full aspect-square bg-gray-200 rounded-lg overflow-hidden border border-gray-300 dark:border-gray-700">
+                                <img src="two.jpg" alt="Art Piece 2" class="w-full h-full object-cover">
+                            </div>
+                            <div class="w-full aspect-square bg-gray-200 rounded-lg overflow-hidden border border-gray-300 dark:border-gray-700">
+                                <img src="three.png" alt="Art Piece 3" class="w-full h-full object-cover">
+                            </div>
+                            <div class="w-full aspect-square bg-gray-200 rounded-lg overflow-hidden border border-gray-300 dark:border-gray-700">
+                                <img src="four.png" alt="Art Piece 4" class="w-full h-full object-cover">
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- --- CONNECT & SOCIAL MEDIA SECTION --- -->
+            <section id="connect" class="mb-12 p-8 card transition-colors duration-300">
+                <h2 class="text-3xl font-bold border-b pb-4 mb-8 tonal-accent" data-i18n="connect_heading">Connect with Me</h2>
+                <p class="text-center mb-8 text-base text-secondary-light" data-i18n="connect_p">
+                    Let's collaborate! Reach out through my professional and creative channels below.
+                </p>
+                <div class="flex flex-wrap justify-center gap-8">
+                    
+                    <!-- Social icons use subtle tonal accent on hover -->
+                    <a href="https://www.linkedin.com/in/sai-pyae-ko-ko-a07212383/" target="_blank" class="flex flex-col items-center space-y-1 text-secondary-light tonal-accent-hover transition duration-150">
+                        <i class="fab fa-linkedin text-4xl"></i>
+                        <span class="font-medium text-sm">LinkedIn</span>
+                    </a>
+                    
+                    <a href="https://github.com/MrMOON224" target="_blank" class="flex flex-col items-center space-y-1 text-secondary-light tonal-accent-hover transition duration-150">
+                        <i class="fab fa-github text-4xl"></i>
+                        <span class="font-medium text-sm">GitHub (Code)</span>
+                    </a>
+                    
+                    <a href="https://www.instagram.com/fudoo_who_draw?igsh=dWhhcGJlYnF2emg0&utm_source=qr" target="_blank" class="flex flex-col items-center space-y-1 text-secondary-light tonal-accent-hover transition duration-150">
+                        <i class="fab fa-instagram text-4xl"></i>
+                        <span class="font-medium text-sm">Instagram (Art/Video)</span>
+                    </a>
+                    
+                    
+                </div>
+            </section>
+
+        </main>
+
+        <!-- Footer -->
+        <footer class="mt-10 py-8 text-center text-secondary-light transition-colors duration-300 border-t border-gray-200 dark:border-gray-800">
+            <span data-i18n="footer_text">© 2025 saipyaekoko (fudoo). Driven by vision and technical expertise.</span>
+        </footer>
+    </div>
+
+</body>
+</html>
