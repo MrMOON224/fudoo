@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>fudoo | Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Updated Supabase Import for better compatibility -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #0f0f0f; --accent: #ffffff; --muted: #aaaaaa; --card-bg: #1e1e1e; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg); color: var(--accent); overflow-x: hidden; letter-spacing: -0.01em; }
+        .mono { font-family: 'JetBrains Mono', monospace; }
+        
+        #watch-overlay { 
+            display: none; 
+            position: fixed; 
+            inset: 0; 
+            z-index: 9999; 
+            background: var(--bg); 
+            overflow-y: auto; 
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .media-container {
+            width: 100%;
+            background: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .media-content { 
+            width: 100%; 
+            height: auto; 
+            max-height: 85vh; 
+            object-fit: contain; 
+        }
+        
+        .sidebar-thumb {
+            aspect-ratio: 16/9;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+        
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0f0f0f; }
+        ::-webkit-scrollbar-thumb { background: #3f3f3f; border-radius: 10px; }
+        
+        .clickable-btn { cursor: pointer !important; }
+
+        #custom-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 10001;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(8px);
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body class="pb-20">
+    <header class="sticky top-0 z-[100] bg-[#0f0f0f]/95 backdrop-blur-xl border-b border-white/[0.05] px-4 md:px-8 py-4 flex justify-between items-center">
+        <div class="flex items-center gap-4">
+            <a href="index.html"><button class="font-bold uppercase tracking-tighter text-lg">fudoo</button></a>
+        </div>
+        <div class="flex items-center gap-4">
+            <span id="user-display" class="hidden md:block text-[10px] mono uppercase text-muted tracking-widest">Guest</span>
+            <button onclick="window.changeUsername()" class="clickable-btn text-[10px] mono text-white/40 hover:text-white border border-white/10 px-3 py-1.5 rounded-full transition">change username</button>
+        </div>
+    </header>
+
+    <main class="max-w-[1800px] mx-auto px-4 md:px-8 pt-8">
+        <div id="portfolio-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div class="col-span-full py-40 text-center mono text-[10px] text-muted uppercase tracking-[0.4em]">Loading Archive...</div>
+        </div>
+    </main>
+
+    <div id="watch-overlay">
+        <div class="sticky top-0 z-[110] w-full bg-[#0f0f0f]/90 backdrop-blur-md px-6 py-3 flex items-center border-b border-white/5">
+            <button onclick="window.closeWatchPage()" class="clickable-btn flex items-center gap-2 mono text-[11px] uppercase tracking-widest text-white/80 hover:text-white transition-all">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+                Back
+            </button>
+        </div>
+
+        <div class="max-w-[1700px] mx-auto">
+            <div class="flex flex-col lg:flex-row gap-6 p-0 md:p-0">
+                <div class="flex-grow lg:w-[70%]">
+                    <div class="media-container rounded-none md:rounded-xl overflow-hidden shadow-2xl">
+                        <div id="player-container" class="w-full"></div>
+                    </div>
+
+                    <div class="mt-4 px-4 md:px-6">
+                        <div id="watch-info"></div>
+                        
+                        <div class="flex items-center gap-4 py-4 mt-4 border-t border-white/10">
+                            <button id="like-btn" onclick="window.toggleLike()" class="clickable-btn flex items-center gap-3 bg-white/10 hover:bg-white/20 text-white px-5 py-2.5 rounded-full transition font-semibold text-sm">
+                                <span id="like-icon" class="text-lg">♡</span>
+                                <span id="like-count">0</span>
+                            </button>
+                            <div class="h-8 w-px bg-white/10"></div>
+                            <div class="text-xs text-muted mono uppercase">Production Phase</div>
+                        </div>
+
+                        <div class="mt-8 pt-8 border-t border-white/10">
+                            <h3 class="text-lg font-bold mb-6">Correspondence</h3>
+                            <div class="flex gap-4 mb-8">
+                                <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-zinc-700 to-zinc-500 flex-shrink-0 flex items-center justify-center font-bold text-xs uppercase">
+                                    <span id="user-initial">A</span>
+                                </div>
+                                <div class="flex-grow border-b border-white/20 pb-1 flex gap-2">
+                                    <input id="comment-text" type="text" placeholder="Add a comment..." class="bg-transparent w-full text-sm outline-none py-1 focus:border-white transition-colors">
+                                    <button onclick="window.handleCommentSubmit()" class="clickable-btn text-blue-400 font-bold text-xs uppercase hover:text-blue-300">Comment</button>
+                                </div>
+                            </div>
+                            <div id="comments-list" class="space-y-6"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:w-[30%] px-4 md:px-6 pb-20 mt-6 lg:mt-0">
+                    <h3 class="mono text-[10px] uppercase text-muted tracking-widest mb-4 px-2 md:px-0">Recommended Archive</h3>
+                    <div id="sidebar-grid" class="space-y-3 md:space-y-4"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="custom-modal">
+        <div class="bg-[#282828] p-6 rounded-xl max-w-xs w-full shadow-2xl border border-white/5">
+            <h3 id="modal-title" class="text-sm font-bold mb-2">Delete Comment?</h3>
+            <p id="modal-message" class="text-xs text-muted mb-6">This action cannot be undone.</p>
+            <div id="modal-actions" class="flex justify-end gap-3">
+                <button id="modal-cancel" class="px-4 py-2 text-xs font-bold hover:bg-white/5 rounded-full">Cancel</button>
+                <button id="modal-confirm" class="px-4 py-2 text-xs font-bold bg-red-600 hover:bg-red-700 rounded-full">Delete</button>
+            </div>
+            <div id="modal-error-actions" class="hidden">
+                <button onclick="window.closeModal()" class="w-full py-2 bg-white/10 rounded-full text-xs font-bold">Dismiss</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Use a standard UMD check to ensure supabase is defined correctly
+        const SUPABASE_URL = "https://ehhgrwcgckcqbjoxitsx.supabase.co";
+        const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVoaGdyd2NnY2tjcWJqb3hpdHN4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjgxMjg3ODksImV4cCI6MjA4MzcwNDc4OX0.fJIZ0-Fu3wFIZmI3pFwJ83IH_sWRMWc1K6B3GQvLU1k";
+        
+        let supabaseClient;
+        let currentItemId = null;
+        let allItems = [];
+        let username = localStorage.getItem('fudoo_username') || ("ANON_" + Math.floor(Math.random()*999));
+
+        function initApp() {
+            // Check if Supabase is available in the global scope
+            const clientLib = window.supabase || (window.supabasejs ? window.supabasejs : null);
+            
+            if (!clientLib) {
+                console.error("Supabase library not found. Retrying...");
+                setTimeout(initApp, 500);
+                return;
+            }
+
+            supabaseClient = clientLib.createClient(SUPABASE_URL, SUPABASE_KEY);
+            updateIdentity();
+            fetchPortfolio();
+        }
+
+        function updateIdentity() {
+            localStorage.setItem('fudoo_username', username);
+            const el = document.getElementById('user-display');
+            const initEl = document.getElementById('user-initial');
+            if(el) el.innerText = username;
+            if(initEl) initEl.innerText = username.charAt(0);
+        }
+
+        window.changeUsername = function() {
+            const newName = prompt("Identity Update:", username);
+            if(newName && newName.trim() !== "") { 
+                username = newName.trim(); 
+                updateIdentity(); 
+                if(currentItemId) loadLikesAndComments(currentItemId);
+            }
+        };
+
+        async function fetchPortfolio() {
+            const grid = document.getElementById('portfolio-grid');
+            const { data, error } = await supabaseClient.from('portfolio_items').select('*').order('created_at', { ascending: false });
+            if (error) {
+                grid.innerHTML = `<div class="col-span-full py-40 text-center mono text-[10px] text-red-500 uppercase">Error: ${error.message}</div>`;
+                return;
+            }
+            allItems = data || [];
+            if (allItems.length === 0) {
+                grid.innerHTML = '<div class="col-span-full py-40 text-center mono text-[10px] text-muted uppercase tracking-[0.4em]">Empty</div>';
+                return;
+            }
+            renderMainGrid();
+        }
+
+        function renderMainGrid() {
+            const grid = document.getElementById('portfolio-grid');
+            grid.innerHTML = allItems.map(item => `
+                <div class="group cursor-pointer" onclick="window.openWatchPage('${item.id}')">
+                    <div class="aspect-video relative overflow-hidden mb-3 bg-[#1e1e1e] rounded-xl transition-all group-hover:rounded-none">
+                        <img src="${item.thumbnail_url}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy">
+                    </div>
+                    <div class="flex gap-3 px-1 md:px-0">
+                        <div class="w-9 h-9 rounded-full bg-zinc-800 flex-shrink-0 flex items-center justify-center font-bold text-[10px] border border-white/5">F</div>
+                        <div>
+                            <h4 class="font-bold text-sm leading-snug line-clamp-2 mb-1">${item.title}</h4>
+                            <p class="text-xs text-muted">${item.type || 'Production'} • fudoo archive</p>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        window.openWatchPage = async function(id) {
+            currentItemId = id;
+            const overlay = document.getElementById('watch-overlay');
+            overlay.style.display = 'block';
+            overlay.scrollTop = 0;
+            document.body.style.overflow = 'hidden';
+            
+            const item = allItems.find(i => i.id == id);
+            if(!item) return;
+
+            const playerContainer = document.getElementById('player-container');
+            if (item.type === 'Video') {
+                playerContainer.innerHTML = `<video controls autoplay playsinline class="media-content"><source src="${item.media_url}" type="video/mp4"></video>`;
+            } else {
+                playerContainer.innerHTML = `<img src="${item.media_url}" class="media-content">`;
+            }
+
+            const dateStr = item.created_at ? new Date(item.created_at).toLocaleDateString([], { year: 'numeric', month: 'long', day: 'numeric' }) : 'N/A';
+            document.getElementById('watch-info').innerHTML = `
+                <h2 class="text-xl md:text-2xl font-bold mb-2">${item.title}</h2>
+                <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted mono uppercase font-medium">
+                    <span>fudoo archive</span>
+                    <span class="w-1 h-1 bg-white/20 rounded-full"></span>
+                    <span>${dateStr}</span>
+                    <span class="w-1 h-1 bg-white/20 rounded-full"></span>
+                    <span>${item.type}</span>
+                </div>
+                <div class="mt-4 bg-white/5 p-4 rounded-xl text-sm leading-relaxed text-zinc-300">
+                    ${item.description || 'No additional project details provided for this entry.'}
+                </div>
+            `;
+            renderSidebar(id);
+            loadLikesAndComments(id);
+        };
+
+        function renderSidebar(excludeId) {
+            const sidebar = document.getElementById('sidebar-grid');
+            const others = allItems.filter(i => i.id != excludeId);
+            
+            sidebar.innerHTML = others.map(item => `
+                <div class="flex gap-3 md:gap-4 cursor-pointer group px-2 md:px-0" onclick="window.openWatchPage('${item.id}')">
+                    <div class="w-[45%] md:w-[140px] lg:w-[120px] flex-shrink-0">
+                        <img src="${item.thumbnail_url}" class="sidebar-thumb w-full h-full bg-[#1e1e1e]" loading="lazy">
+                    </div>
+                    <div class="flex-grow py-0.5 md:py-1">
+                        <h4 class="text-xs md:text-sm font-bold leading-tight line-clamp-2 group-hover:text-blue-400 transition-colors">${item.title}</h4>
+                        <p class="text-[10px] md:text-[11px] text-muted mt-1 uppercase font-semibold">fudoo</p>
+                        <p class="text-[10px] md:text-[11px] text-muted">${item.type}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        async function loadLikesAndComments(id) {
+            const { data: comments } = await supabaseClient.from('comments').select('*').eq('item_id', id).order('created_at', { ascending: false });
+            const list = document.getElementById('comments-list');
+            if (!list) return;
+            const textComments = comments?.filter(c => c.content !== "Liked this production.") || [];
+            const likesCount = comments?.filter(c => c.content === "Liked this production.").length || 0;
+            const userLiked = comments?.some(l => l.author === username && l.content === "Liked this production.");
+            list.innerHTML = textComments.map(c => {
+                const isAuthor = (c.author === username);
+                const dateStr = c.created_at ? new Date(c.created_at).toLocaleDateString() : 'Now';
+                return `
+                <div class="flex gap-4 group">
+                    <div class="w-10 h-10 rounded-full bg-zinc-800 flex-shrink-0 flex items-center justify-center font-bold text-xs uppercase">${c.author.charAt(0)}</div>
+                    <div class="flex-grow">
+                        <div class="flex items-center gap-2 mb-0.5">
+                            <span class="text-xs font-bold">${c.author}</span>
+                            <span class="text-[10px] text-muted">${dateStr}</span>
+                        </div>
+                        <p class="text-sm text-zinc-200">${c.content}</p>
+                        <div class="mt-2 flex items-center gap-4">
+                            ${isAuthor ? `<button onclick="window.deleteMyComment('${c.id}')" class="text-[10px] font-bold text-red-500/60 hover:text-red-500 uppercase tracking-tighter">Remove</button>` : ''}
+                        </div>
+                    </div>
+                </div>`;
+            }).join('') || '<p class="text-xs text-muted italic">Be the first to leave a thought.</p>';
+            document.getElementById('like-count').innerText = likesCount;
+            const btn = document.getElementById('like-btn');
+            const icon = document.getElementById('like-icon');
+            if (userLiked) {
+                icon.innerText = "♥"; icon.classList.add('text-red-500');
+                btn.classList.add('bg-white/30');
+            } else {
+                icon.innerText = "♡"; icon.classList.remove('text-red-500');
+                btn.classList.remove('bg-white/30');
+            }
+        }
+
+        window.toggleLike = async function() {
+            const { data: existing } = await supabaseClient.from('comments').select('id').eq('item_id', currentItemId).eq('author', username).eq('content', "Liked this production.").maybeSingle();
+            if (existing) {
+                await supabaseClient.from('comments').delete().eq('id', existing.id);
+            } else {
+                await supabaseClient.from('comments').insert([{ item_id: currentItemId, author: username, content: "Liked this production." }]);
+            }
+            loadLikesAndComments(currentItemId);
+        };
+
+        window.handleCommentSubmit = async function() {
+            const el = document.getElementById('comment-text');
+            if(!el || !el.value.trim()) return;
+            await supabaseClient.from('comments').insert([{ item_id: currentItemId, author: username, content: el.value.trim() }]);
+            el.value = '';
+            loadLikesAndComments(currentItemId);
+        };
+
+        window.deleteMyComment = function(commentId) {
+            window.showModal("Erase Comment", "Delete this permanently?", async () => {
+                const { error } = await supabaseClient.from('comments').delete().eq('id', commentId);
+                if(error) window.showModal("Error", error.message, null, true);
+                else loadLikesAndComments(currentItemId);
+            });
+        };
+
+        window.showModal = function(title, message, onConfirm, isError = false) {
+            const modal = document.getElementById('custom-modal');
+            document.getElementById('modal-title').innerText = title;
+            document.getElementById('modal-message').innerText = message;
+            modal.style.display = 'flex';
+            const confirmBtn = document.getElementById('modal-confirm');
+            const cancelBtn = document.getElementById('modal-cancel');
+            if(isError) {
+                document.getElementById('modal-actions').classList.add('hidden');
+                document.getElementById('modal-error-actions').classList.remove('hidden');
+            } else {
+                document.getElementById('modal-actions').classList.remove('hidden');
+                document.getElementById('modal-error-actions').classList.add('hidden');
+                confirmBtn.onclick = async () => { await onConfirm(); window.closeModal(); };
+                cancelBtn.onclick = window.closeModal;
+            }
+        };
+
+        window.closeModal = () => document.getElementById('custom-modal').style.display = 'none';
+
+        window.closeWatchPage = function() { 
+            document.getElementById('player-container').innerHTML = '';
+            document.getElementById('watch-overlay').style.display = 'none'; 
+            document.body.style.overflow = 'auto';
+        };
+
+        // Start initialization after DOM content is loaded
+        document.addEventListener('DOMContentLoaded', initApp);
+    </script>
+</body>
+</html>
