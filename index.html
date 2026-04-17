@@ -1,153 +1,295 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>saipyaekoko (fudoo) | Identity</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
-    <style>
-        :root { --bg: #000000; --accent: #ffffff; --muted: #666666; --border: rgba(255,255,255,0.06); }
-        body { font-family: 'Inter', sans-serif; background-color: var(--bg); color: var(--accent); scroll-behavior: smooth; letter-spacing: -0.02em; }
-        .mono { font-family: 'JetBrains Mono', monospace; }
-        
-        .nav-glass { background: rgba(0,0,0,0.8); backdrop-filter: saturate(180%) blur(20px); border-bottom: 1px solid var(--border); }
-        
-        .hero-title { font-size: clamp(2.8rem, 12vw, 8.5rem); font-weight: 900; line-height: 0.85; letter-spacing: -0.05em; }
-        
-        .reveal-item { opacity: 0.5; transition: all 0.5s ease; border-bottom: 1px solid var(--border); padding: 2.5rem 0; }
-        .reveal-item:hover { opacity: 1; border-color: var(--accent); }
+    <meta name="description"
+        content="Portfolio of Saipyaekoko fudoo, an 18-year-old Myanmar-based Web Developer, Trader, and Green Energy enthusiast. GED graduate, fluent in English and Burmese.">
+    <meta name="keywords"
+        content="Saipyaekoko fudoo, fudoo.xyz, Web Developer Myanmar, Yangon Developer, Trader, Solar Energy Tech, Digital Drawing, Minimalist Portfolio, Portfolio fudoo">
+    <meta name="author" content="Saipyaekoko fudoo">
+    <meta name="theme-color" content="#050505">
+    <link rel="canonical" href="https://fudoo.xyz/">
 
-        .btn-minimal { border: 1px solid var(--border); padding: 1rem 2rem; font-size: 11px; text-transform: uppercase; letter-spacing: 0.2em; font-weight: 700; transition: all 0.3s ease; text-align: center; }
-        .btn-minimal:hover { background: #fff; color: #000; border-color: #fff; }
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
-        .emphasis { font-weight: 700; color: #fff; }
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://fudoo.xyz/">
+    <meta property="og:title" content="Saipyaekoko fudoo | Web Developer & Trader">
+    <meta property="og:description" content="18-year-old Web Dev & Trader exploring Green Energy and Digital Art.">
+    <meta property="og:image" content="https://fudoo.xyz/assets/preview.png">
 
-        .profile-frame {
-            width: 100%;
-            max-width: 480px;
-            aspect-ratio: 4/5;
-            overflow: hidden;
-            background: #111;
-            border: 1px solid var(--border);
-            align-items: center;
-        }
-        .profile-frame img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            filter: grayscale(0%) contrast(100%);
-            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .profile-frame:hover img {
-            filter: grayscale(0%) contrast(100%);
-            transform: scale(1.05);
-        }
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://fudoo.xyz/">
+    <meta property="twitter:title" content="Saipyaekoko fudoo | Web Developer & Trader">
+    <meta property="twitter:description" content="18-year-old Web Dev & Trader exploring Green Energy and Digital Art.">
 
-        ::selection { background: #fff; color: #000; }
-        
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .animate-fade { animation: fadeIn 1s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-    </style>
+    <title>Saipyaekoko fudoo | Web Developer & Trader</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Performance: Font Preloading -->
+    <link rel="preload"
+        href="https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;600;800&family=Space+Grotesk:wght@300;400;500;700&display=swap"
+        as="style">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;600;800&family=Space+Grotesk:wght@300;400;500;700&display=swap"
+        rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;600;800&family=Space+Grotesk:wght@300;400;500;700&display=swap"
+            rel="stylesheet">
+    </noscript>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="./css/styles.css">
+
+    <!-- Structured Data (SEO) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Saipyaekoko fudoo",
+      "url": "https://fudoo.xyz",
+      "jobTitle": "Web Developer & Trader",
+      "description": "18-year-old Web Developer and Trader with expertise in Green Energy and Digital Drawing.",
+      "knowsAbout": ["Web Development", "Stock Trading", "Solar Energy", "Digital Art"],
+      "alumniOf": {
+        "@type": "EducationalOrganization",
+        "name": "GED graduate"
+      }
+    }
+    </script>
 </head>
-<body class="selection:bg-white selection:text-black">
-    <nav class="fixed w-full z-50 nav-glass py-5 px-4 md:px-8 flex justify-between items-center">
-        <div class="font-black text-sm uppercase tracking-tighter">fudoo <span class="text-muted">/ identity</span></div>
-        <div class="flex space-x-6 md:space-x-12 text-[10px] uppercase tracking-[0.2em] md:tracking-[0.3em] font-bold text-muted">
-            <a href="#about" class="hover:text-white transition hidden sm:block">About</a>
-            <a href="port.html" class="text-white transition underline underline-offset-8">Archive</a>
-            <a href="#connect" class="hover:text-white transition">Connect</a>
+
+<body>
+    <!-- Navigation -->
+    <nav class="glass-nav">
+        <div class="container nav-content">
+            <div class="logo">fudoo.<span>xyz</span></div>
+            <button class="mobile-menu-btn" aria-label="Toggle navigation menu">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    aria-label="Menu Icon" role="img">
+                    <line x1="4" x2="20" y1="12" y2="12" />
+                    <line x1="4" x2="20" y1="6" y2="6" />
+                    <line x1="4" x2="20" y1="18" y2="18" />
+                </svg>
+            </button>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#work">Work</a></li>
+                <li><a href="#insights">Insights</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
         </div>
     </nav>
 
-    <header class="min-h-screen flex flex-col justify-center px-4 md:px-8 pt-32 pb-24">
-        <div class="animate-fade flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-24">
-            <div class="flex-1 w-full">
-                <div class="mono text-[10px] text-muted mb-6 md:mb-8 tracking-[0.5em] uppercase font-bold">Sai Pyae Ko Ko (fudoo)</div>
-                <h1 class="hero-title mb-8 md:mb-12 uppercase">
-                    SCALING<br>MODERN<br>IMPACT.
-                </h1>
-                <div class="max-w-2xl">
-                    <p class="text-muted text-base md:text-xl font-light leading-relaxed mb-8 md:mb-12">
-                        18-year-old bridging the gap between creative storytelling and technical systems to build scalable digital brands,hay i am fudoo u can checkout my
-                        work on explore works and give me a call for business purpose.i can do alot of things too lol.
+    <main>
+        <!-- Hero Section -->
+        <header class="hero" id="home">
+            <div class="container hero-container">
+                <div class="hero-content">
+                    <div class="badge stagger-item" style="--delay: 1">Open to Opportunities</div>
+                    <h1 class="stagger-item" style="--delay: 2">Saipyaekoko fudoo</h1>
+                    <div class="roles stagger-item" style="--delay: 3">
+                        <span class="accent-web">Web Dev</span>
+                        <span class="divider">/</span>
+                        <span class="accent-trade">Trader</span>
+                    </div>
+                    <p class="tagline stagger-item" style="--delay: 4">Building robust high-performance digital
+                        experiences and navigating global financial markets.</p>
+                </div>
+            </div>
+        </header>
+
+        <!-- Stats Section -->
+        <section id="about" class="editorial-section">
+            <div class="container editorial-grid-3">
+                <div class="editorial-item">
+                    <div class="editorial-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            aria-label="User Icon" role="img">
+                            <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+                            <circle cx="12" cy="7" r="4" />
+                        </svg>
+                    </div>
+                    <h3>18 Years Old</h3>
+                    <p>Building the future from a young age.</p>
+                </div>
+                <div class="editorial-item">
+                    <div class="editorial-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            aria-label="Graduation Cap Icon" role="img">
+                            <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+                            <path d="M6 12v5c3 3 9 3 12 0v-5" />
+                        </svg>
+                    </div>
+                    <h3>GED Graduate</h3>
+                    <p>High standard educational background.</p>
+                </div>
+                <div class="editorial-item">
+                    <div class="editorial-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            aria-label="Globe Icon" role="img">
+                            <circle cx="12" cy="12" r="10" />
+                            <path
+                                d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                            <path d="M2 12h20" />
+                        </svg>
+                    </div>
+                    <h3>Bilingual</h3>
+                    <p>English & Burmese (Native).</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Context Narrative Section (NEW) -->
+        <section class="context-narrative">
+            <div class="container">
+                <div class="narrative-box">
+                    <h2 class="section-title" style="text-align: left; margin-bottom: 24px;">The Context</h2>
+                    <p class="narrative-text">
+                        At age 18, I've taken an unconventional path to mastery. As a <strong>GED graduate</strong>,
+                        I've prioritized self-directed growth, mastering the complexities of modern web systems and
+                        financial market analysis. Being <strong>fluent in both English and Burmese</strong> allows me
+                        to bridge communication gaps and collaborate across borders.
                     </p>
-                    <div class="flex flex-col sm:flex-row gap-4 sm:gap-6">
-                        <a href="port.html" class="btn-minimal bg-white text-black border-white">Explore works</a>
-                        <a href="#connect" class="btn-minimal">Get In Touch</a>
+                    <p class="narrative-text">
+                        My work is driven by a fascination with efficiency—whether it's architecting a high-performance
+                        web application or identifying high-probability patterns in global markets. I believe that
+                        <strong>Green Energy</strong> and <strong>Creative Expression</strong> are the pillars of a
+                        sustainable future.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Focus Sections -->
+        <section id="work" class="editorial-list">
+            <!-- Web Dev -->
+            <div class="editorial-row">
+                <div class="container editorial-grid-2">
+                    <div class="editorial-title">
+                        <h2>Web Development</h2>
+                        <div class="tech-stack">
+                            <span>Modern JS</span> <span>Responsive UI</span> <span>SEO</span> <span>Static
+                                Hosting</span>
+                        </div>
+                    </div>
+                    <div class="editorial-desc">
+                        <p>I build robust, scalable, and responsive web applications. My specialty lies in turning
+                            complex requirements into elegant, high-performance digital experiences that rank on search
+                            engines.</p>
                     </div>
                 </div>
             </div>
-            
-            <div class="flex-1 flex justify-center lg:justify-end w-full">
-                <div class="profile-frame">
-                    <img src="me.jpg" alt="Identity Image">
-                </div>
-            </div>
-        </div>
-    </header>
 
-    <section id="about" class="py-24 md:py-40 px-4 md:px-8 border-t border-white/5">
-        <div class="max-w-screen-xl mx-auto grid lg:grid-cols-2 gap-16 md:gap-24 items-start">
-            <h2 class="text-4xl md:text-5xl font-bold uppercase tracking-tighter leading-none">The Philosophy<br>of <span class="text-muted">Precision.</span></h2>
-            <div class="space-y-8 md:space-y-12">
-                <p class="text-muted text-lg md:text-xl font-light leading-relaxed">
-                    <span class="emphasis">Efficiency</span> and <span class="emphasis">scalability</span> are the core of everything I build. I specialize in merging <span class="emphasis">mobile-first production</span> with <span class="emphasis">analytical problem solving</span> to create digital assets that stand the test of time.
-                </p>
-                <div class="grid grid-cols-2 gap-px bg-white/5 border border-white/5">
-                    <div class="bg-black p-6 md:p-8 text-[10px] md:text-[11px] font-bold uppercase tracking-[0.2em] text-white">Fluent English</div>
-                    <div class="bg-black p-6 md:p-8 text-[10px] md:text-[11px] font-bold uppercase tracking-[0.2em] text-white">GED Graduate</div>
-                    <div class="bg-black p-6 md:p-8 text-[10px] md:text-[11px] font-bold uppercase tracking-[0.2em] text-white">Mobile first production</div>
-                    <div class="bg-black p-6 md:p-8 text-[10px] md:text-[11px] font-bold uppercase tracking-[0.2em] text-white">Solar Tech</div>
-                    <div class="bg-black p-6 md:p-8 text-[10px] md:text-[11px] font-bold uppercase tracking-[0.2em] text-white">divinci colorgrading</div>
+            <!-- Trading -->
+            <div class="editorial-row trading-bg">
+                <div class="trading-overlay"></div>
+                <div class="container editorial-grid-2" style="position: relative; z-index: 2;">
+                    <div class="editorial-title">
+                        <h2>Market Trading</h2>
+                        <div class="tech-stack">
+                            <span>Analysis</span> <span>Risk</span> <span>Price Action</span>
+                        </div>
+                    </div>
+                    <div class="editorial-desc">
+                        <p>Systematic analysis and execution in global financial markets. I specialize in price action
+                            models, technical indicators, and rigorous risk management to navigate market volatility.
+                        </p>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section id="skills" class="py-24 md:py-40 px-4 md:px-8 border-t border-white/5">
-        <div class="max-w-screen-xl mx-auto">
-            <h2 class="text-4xl md:text-5xl font-bold uppercase tracking-tighter leading-none">Core Capabilities</h2>
-            <div class="flex flex-col">
-                <div class="reveal-item flex flex-col md:flex-row md:items-center justify-between gap-4">
-                    <h3 class="text-2xl md:text-3xl font-bold uppercase tracking-tight">Cinematography</h3>
-                    <p class="text-muted text-sm max-w-md font-light">
-                        <span class="emphasis">Advanced mobile production</span>, studio lighting, and pro-level <span class="emphasis">post-production</span> workflows for modern brands.
-                    </p>
-                </div>
-                <div class="reveal-item flex flex-col md:flex-row md:items-center justify-between gap-4">
-                    <h3 class="text-2xl md:text-3xl font-bold uppercase tracking-tight">Systems Engineering</h3>
-                    <p class="text-muted text-sm max-w-md font-light">
-                        Building <span class="emphasis">responsive digital interfaces</span> with clean, modular code and <span class="emphasis">high-performance</span> metrics.
-                    </p>
-                </div>
-                <div class="reveal-item flex flex-col md:flex-row md:items-center justify-between gap-4">
-                    <h3 class="text-2xl md:text-3xl font-bold uppercase tracking-tight">Energy Systems</h3>
-                    <p class="text-muted text-sm max-w-md font-light">
-                        Technical <span class="emphasis">optimization</span> and precision installation of <span class="emphasis">sustainable solar</span> power infrastructure.
-                    </p>
+        <!-- Interests Section -->
+        <section id="insights" class="editorial-section">
+            <div class="container">
+                <h2 class="section-title text-left">Beyond the Screens</h2>
+                <div class="editorial-grid-2">
+                    <div class="editorial-item strict-border">
+                        <h3 class="accent-green">Green Energy & Solar Tech</h3>
+                        <p>Deeply passionate about sustainable energy. I study solar technology implementation and its
+                            potential to revolutionize power accessibility in local communities.</p>
+                    </div>
+                    <div class="editorial-item strict-border">
+                        <h3 class="accent-art">Digital Illustration</h3>
+                        <p>Where code meets creativity. I draw digitally to visualize abstract concepts and explore the
+                            intersection of human art and digital precision.</p>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <footer id="connect" class="py-24 md:py-40 px-4 md:px-8 border-t border-white/5 bg-black">
-        <div class="max-w-screen-xl mx-auto">
-            <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-12 md:gap-16">
-                <div class="w-full">
-                    <h2 class="text-6xl md:text-8xl font-black uppercase tracking-tighter mb-8">Deploy.</h2>
-                    <a href="mailto:starman201523@gmail.com" class="text-muted hover:text-white transition text-lg md:text-2xl mono tracking-tighter underline underline-offset-8 block truncate">starman201523@gmail.com</a>
+        <!-- Contact Section -->
+        <section id="contact" class="contact">
+            <div class="container text-center">
+                <h2>Ready to connect?</h2>
+                <p>Check out my latest digital products or connect with me on social media.</p>
+
+                <div class="cta-group stagger-item" style="--delay: 1">
+                    <a href="#" class="cta-button">Buy My Products</a>
+                    <a href="https://www.tiktok.com/@fudon20" target="_blank" rel="noopener noreferrer"
+                        class="cta-button outline">Follow TikTok</a>
                 </div>
-                <div class="flex flex-col gap-4 mono text-[10px] uppercase font-bold tracking-[0.4em] text-muted whitespace-nowrap">
-                    <a href="https://www.tiktok.com/@fudon20" target="_blank" class="hover:text-white transition">TikTok / @fudon20</a>
-                    
+
+                <div class="social-grid stagger-item" style="--delay: 2">
+                    <a href="https://www.tiktok.com/@fudon20" target="_blank" rel="noopener noreferrer"
+                        aria-label="TikTok" class="social-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            role="img">
+                            <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5" />
+                        </svg>
+                    </a>
+                    <a href="https://mm.linkedin.com/in/sai-pyae-ko-ko-a07212383" target="_blank"
+                        rel="noopener noreferrer" aria-label="LinkedIn" class="social-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            role="img">
+                            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+                            <rect x="2" y="9" width="4" height="12" />
+                            <circle cx="4" cy="4" r="2" />
+                        </svg>
+                    </a>
+                    <a href="#" aria-label="Instagram" class="social-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            role="img">
+                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+                        </svg>
+                    </a>
                 </div>
             </div>
-            <div class="mt-24 md:mt-40 pt-8 border-t border-white/5 flex flex-col sm:flex-row justify-between items-center gap-4 text-[10px] mono text-white/20 uppercase tracking-widest">
-                <span>© 2026 saipyaekoko</span>
-                <span>Mandalay, MM</span>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container footer-content">
+            <p>&copy; 2024 Saipyaekoko fudoo. Built with precision for fudoo.xyz</p>
+            <div class="footer-meta">
+                <span>Optimized for GitHub Pages</span>
             </div>
         </div>
     </footer>
+
+    <div class="custom-cursor"></div>
+
+    <script src="js/main.js"></script>
 </body>
+
 </html>
